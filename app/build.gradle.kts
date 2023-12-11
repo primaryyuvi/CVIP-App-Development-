@@ -1,5 +1,4 @@
-import com.android.build.gradle.internal.utils.isKspPluginApplied
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 
 plugins {
     id("com.android.application")
