@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 class OfflineRepository(private val toDoDao: ToDoDao): ListRepository {
     override fun getAllTasks() : Flow<List<Task>> = toDoDao.getAllTasks()
-    override fun insertTask(task: Task) = toDoDao.insertTask(task)
-    override fun deleteTask(task: Task) = toDoDao.deleteTask(task)
+    override suspend fun insertTask(task: Task) = toDoDao.insertTask(task)
+    override suspend fun deleteTask(task: Task) = toDoDao.deleteTask(task)
 
 }

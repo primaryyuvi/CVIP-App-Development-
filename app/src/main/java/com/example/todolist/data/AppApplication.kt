@@ -1,6 +1,5 @@
 package com.example.todolist.data
 
-import android.app.Application
 import android.content.Context
 
 interface AppContainer {

@@ -1,5 +1,6 @@
 package com.example.todolist.ui
 
+import android.util.EventLogTags.Description
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -103,16 +104,15 @@ fun Layout() {
 fun TaskView(task: Task,modifier: Modifier, deleteTask : () ->Unit) {
     var checkedInput by remember { mutableStateOf(false) }
 
-    Card (Modifier.padding(8.dp).height(50.dp)){
+    Card (
+        Modifier
+            .padding(8.dp)
+            .height(50.dp)){
         Row(
             modifier = Modifier.padding(8.dp)
         ) {
             Column(modifier = modifier) {
-                Text(
-                    text = task.title,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontSize = 24.sp,
-                )
+
             }
             IconToggleButton(
                 checked = checkedInput,
@@ -135,6 +135,28 @@ fun TaskView(task: Task,modifier: Modifier, deleteTask : () ->Unit) {
         }
     }
 }
+@Composable
+fun Description(
+    modifier: Modifier = Modifier,
+    text: String
+){
+    Text(
+        text = text,
+        fontSize = 16.sp,
+        modifier = modifier,
+    )
+}
+@Composable
+fun title(
+    text: String
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.bodyLarge,
+        fontSize = 24.sp,
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoTopAppBar() {

@@ -71,7 +71,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     val roomversion = "2.6.1"
     implementation("androidx.room:room-ktx:2.6.1")
-    //noinspection KaptUsageInsteadOfKsp
     kapt("androidx.room:room-compiler:$roomversion")
     implementation("androidx.navigation:navigation-compose:2.7.5")
 }

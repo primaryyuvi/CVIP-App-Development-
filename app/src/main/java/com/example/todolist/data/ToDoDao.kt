@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ToDoDao {
     @Upsert
-    fun insertTask(task: Task)
+    suspend fun insertTask(task: Task)
     @Delete
-    fun deleteTask(task: Task)
+    suspend fun deleteTask(task: Task)
     @Query("SELECT * FROM Task")
     fun getAllTasks() : Flow<List<Task>>
 }
