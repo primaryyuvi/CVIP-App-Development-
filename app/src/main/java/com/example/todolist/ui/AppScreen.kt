@@ -71,7 +71,7 @@ fun Layout() {
                         trailingIcon = {
                             IconButton(
                                 onClick = {
-                                    tasks.add(Task(taskInput))
+                                   // tasks.add(Task(taskInput))
                                     taskInput = ""
                                 },
                                 modifier = Modifier

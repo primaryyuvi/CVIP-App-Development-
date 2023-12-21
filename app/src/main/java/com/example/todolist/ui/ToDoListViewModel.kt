@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class ToDoListViewModel(private val listRepository: ListRepository = ToDoListApplication().container.listRepository) : ViewModel() {
+class ToDoListViewModel(private val listRepository: ListRepository ) : ViewModel() {
     private val _state = MutableStateFlow(ToDoListState())
     val state = _state.asStateFlow()
 
