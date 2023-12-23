@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,22 +22,28 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todolist.AppViewModelProvider
 import com.example.todolist.R
+import com.example.todolist.navigation.Nav
 import kotlinx.coroutines.launch
+
+object TaskEditScreen : Nav {
+    override val route = "task_edit"
+    val routeWithArgs = "$route/{taskId}"
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskEditScreen(
     taskEditScreenViewModel: TaskEditScreenViewModel= viewModel(factory = AppViewModelProvider.factory)
 ) {
-     val state = taskEditScreenViewModel.state.collectAsState()
+     val taskState by taskEditScreenViewModel.state.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
-            title(text = "Edit")
+            Text(text = "Task Edit")
         }
     ) {
         TaskEdit(
-            taskDetails =  state.value.taskDetails ,
+            taskDetails =  taskState.taskDetails ,
             onTitleChange = {
                             coroutineScope.launch {
                                 taskEditScreenViewModel.updateTaskTitle(it)
@@ -52,7 +59,7 @@ fun TaskEditScreen(
                               taskEditScreenViewModel.insertTask()
                                             }
                           },
-            onSaveEnabled = state.value.saveEnabled ,
+            onSaveEnabled = taskState.saveEnabled ,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(it),
