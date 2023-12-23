@@ -7,10 +7,10 @@ import com.example.todolist.data.AppDataContainer
 class ToDoListApplication : Application() {
 
 
-    lateinit var container: AppContainer
+        lateinit var container: AppContainer
 
     override fun onCreate() {
         super.onCreate()
-        container = AppDataContainer(this)
+         container = AppDataContainer(this)
     }
 }

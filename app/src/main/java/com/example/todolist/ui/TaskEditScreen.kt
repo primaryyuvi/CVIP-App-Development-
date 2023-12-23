@@ -27,13 +27,15 @@ import kotlinx.coroutines.launch
 
 object TaskEditScreen : Nav {
     override val route = "task_edit"
-    val routeWithArgs = "$route/{taskId}"
+    val taskIdArg = "taskId"
+    val routeWithArgs = "$route/{$taskIdArg}"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskEditScreen(
-    taskEditScreenViewModel: TaskEditScreenViewModel= viewModel(factory = AppViewModelProvider.factory)
+    taskEditScreenViewModel: TaskEditScreenViewModel= viewModel(factory = AppViewModelProvider.factory),
+    navigateBack: () -> Unit
 ) {
      val taskState by taskEditScreenViewModel.state.collectAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -55,10 +57,11 @@ fun TaskEditScreen(
                 }
             },
             onSaveClick = {
-                          coroutineScope.launch {
-                              taskEditScreenViewModel.insertTask()
-                                            }
-                          },
+                coroutineScope.launch {
+                    taskEditScreenViewModel.insertTask()
+                    navigateBack()
+                }
+            },
             onSaveEnabled = taskState.saveEnabled ,
                 modifier = Modifier
                     .fillMaxSize()
