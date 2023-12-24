@@ -1,10 +1,12 @@
 package com.example.todolist
 
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.todolist.ui.TaskEditScreenViewModel
+import com.example.todolist.ui.TaskEditViewModel
 import com.example.todolist.ui.ToDoListViewModel
 
 object AppViewModelProvider {
@@ -13,7 +15,16 @@ object AppViewModelProvider {
             ToDoListViewModel(toDoListApplication().container.listRepository)
         }
         initializer {
-            TaskEditScreenViewModel(toDoListApplication().container.listRepository)
+            TaskEditScreenViewModel(
+                toDoListApplication().container.listRepository,
+                this.createSavedStateHandle()
+            )
+        }
+        initializer {
+            TaskEditViewModel(
+                toDoListApplication().container.listRepository,
+                this.createSavedStateHandle()
+            )
         }
     }
 }

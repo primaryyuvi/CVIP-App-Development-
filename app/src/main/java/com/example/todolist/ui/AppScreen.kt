@@ -22,6 +22,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
@@ -30,6 +31,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -56,22 +59,23 @@ fun TasksLayout(
 ) {
     val state by toDoListViewModel.toDoListState.collectAsState()
     Scaffold(
-        topBar = { TodoTopAppBar() },
+        topBar = { HomeScreenTopBar() },
         floatingActionButton = {
-            Button(
-                onClick = onAddClick
+            FloatingActionButton(
+                onClick = onAddClick,
+                shape = MaterialTheme.shapes.medium,
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = null
+                    contentDescription = "Add button for adding new task"
                 )
             }
         }
-    ) { it ->
+    ) { padding ->
         LazyColumn(
-            contentPadding = it,
+            contentPadding = padding,
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
             horizontalAlignment = Alignment.Start
         ) {
             items(items = state.tasks, key = { it.Id }) { task ->
@@ -82,7 +86,7 @@ fun TasksLayout(
                     },
                     onTaskClick = {
                         onTaskClick(task.Id)
-                    }
+                    },
                 )
             }
         }
@@ -95,21 +99,21 @@ fun TaskItem(
     onTaskDeleteClick: () -> Unit,
     onTaskClick: () -> Unit
 ) {
-    var isExpanded by remember {
-        mutableStateOf(false)
-    }
-    var isChecked by remember {
-        mutableStateOf(false)
-    }
+   var isExpanded by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp,
+            defaultElevation = 2.dp,
             pressedElevation = 12.dp
         ),
-        onClick = onTaskClick
+        onClick = onTaskClick,
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(
+            containerColor =  MaterialTheme.colorScheme.tertiaryContainer,
+            contentColor = Color.Black
+        )
     ) {
         Row(
             modifier = Modifier
@@ -117,22 +121,6 @@ fun TaskItem(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconToggleButton(
-                checked = isChecked,
-                onCheckedChange = {isChecked = !isChecked}
-            ) {
-                if (isChecked) {
-                    Icon(
-                        imageVector = Icons.Filled.CheckCircle,
-                        contentDescription = null
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Outlined.CheckCircle,
-                        contentDescription = null
-                    )
-                }
-            }
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -145,7 +133,7 @@ fun TaskItem(
                 if (isExpanded) {
                     Text(
                         text = task.description,
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Normal
                     )
                 }
@@ -170,36 +158,6 @@ fun TaskItem(
             }
         }
     }
-}
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TodoTopAppBar() {
-    CenterAlignedTopAppBar(
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .padding(8.dp),
-                    painter = painterResource(R.drawable.to_do_list),
-                    contentDescription = null
-                )
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.displaySmall,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        },
-        colors =   TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.primaryContainer,
-            navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-    )
 }
 
 @Preview

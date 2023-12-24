@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.compose.ToDoListTheme
-import com.example.todolist.ui.Layout
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +20,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 )
                  {
-                    Layout()
+                    App()
                 }
             }
         }
@@ -35,6 +34,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     ToDoListTheme(darkTheme = true) {
-        Layout()
+        App()
     }
 }

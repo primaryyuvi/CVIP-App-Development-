@@ -43,7 +43,7 @@ class TaskEditScreenViewModel(
     }
 
     suspend fun insertTask() {
-            if(validateInput(_state.taskDetails))
+            if(validateInput())
             lisiRepository.insertTask(_state.taskDetails.toTask())
     }
 
