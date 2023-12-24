@@ -1,21 +1,26 @@
 package com.example.todolist.ui
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todolist.ToDoListApplication
 import com.example.todolist.data.ListRepository
 import com.example.todolist.data.Task
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.example.todolist.navigation.TaskEditScreen
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class TaskEditScreenViewModel(private val lisiRepository: ListRepository ) : ViewModel() {
-    private val _state = MutableStateFlow(TaskEditState())
-    val state = _state.asStateFlow()
-
+class TaskEditScreenViewModel(
+    private val lisiRepository: ListRepository,
+    savedStateHandle: SavedStateHandle
+    ) : ViewModel() {
+     var _state by mutableStateOf(TaskEditState())
     fun updateTaskTitle(title: String) {
-        _state.value = _state.value.copy(
-            taskDetails = _state.value.taskDetails.copy(
+        _state = _state.copy(
+            taskDetails = _state.taskDetails.copy(
                 title = title
             ),
             saveEnabled = validateInput()
@@ -23,25 +28,27 @@ class TaskEditScreenViewModel(private val lisiRepository: ListRepository ) : Vie
     }
 
     fun updateTaskDescription(description: String) {
-        _state.value = _state.value.copy(
-            taskDetails = _state.value.taskDetails.copy(
+        _state = _state.copy(
+            taskDetails = _state.taskDetails.copy(
                 description = description
             ),
             saveEnabled = validateInput()
         )
     }
 
-    private fun validateInput(taskDetails: TaskDetails = state.value.taskDetails): Boolean {
+    private fun validateInput(taskDetails: TaskDetails = _state.taskDetails): Boolean {
         return with(taskDetails) {
             title.isNotBlank() && description.isNotBlank()
         }
     }
 
-    fun insertTask() {
-        viewModelScope.launch {
-            lisiRepository.insertTask(_state.value.taskDetails.toTask())
-        }
+    suspend fun insertTask() {
+            if(validateInput(_state.taskDetails))
+            lisiRepository.insertTask(_state.taskDetails.toTask())
     }
+
+
+
 }
 
 data class TaskEditState(
@@ -64,6 +71,7 @@ fun Task.toTaskDetails() = TaskDetails(
     title = title,
     description = description
 )
-fun Task.toTaskEditState() = TaskEditState(
-    taskDetails = this.toTaskDetails()
+fun Task.toTaskEditState(saveEnabled: Boolean =false ) = TaskEditState(
+    taskDetails = this.toTaskDetails(),
+    saveEnabled = saveEnabled
 )
