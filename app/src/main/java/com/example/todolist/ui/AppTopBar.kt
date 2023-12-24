@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+
 
 package com.example.todolist.ui
 
@@ -48,12 +48,13 @@ fun HomeScreenTopBar() {
         },
         colors =   TopAppBarDefaults.smallTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
             navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     )
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskEditScreenTopBar(
     title : String ,
@@ -64,7 +65,7 @@ fun TaskEditScreenTopBar(
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back button for going back to the previous screen"
                 )
             }

@@ -2,6 +2,7 @@ package com.example.todolist.ui
 
 import  androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,10 +15,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -25,6 +29,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -46,6 +51,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.compose.ToDoListTheme
 import com.example.todolist.AppViewModelProvider
 import com.example.todolist.R
 import com.example.todolist.data.Task
@@ -105,14 +111,14 @@ fun TaskItem(
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp,
+            defaultElevation = 12.dp,
             pressedElevation = 12.dp
         ),
         onClick = onTaskClick,
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
-            containerColor =  MaterialTheme.colorScheme.tertiaryContainer,
-            contentColor = Color.Black
+            containerColor = Color(0xFFCFBCFF),
+            contentColor = MaterialTheme.colorScheme.onBackground,
         )
     ) {
         Row(
@@ -149,10 +155,10 @@ fun TaskItem(
             IconButton(
                 onClick = {
                    isExpanded = !isExpanded
-                }
+                },
             ) {
                 Image(
-                    imageVector = if(!isExpanded) Icons.Outlined.KeyboardArrowDown else Icons.Outlined.KeyboardArrowUp,
+                    imageVector = if(!isExpanded) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
                     contentDescription = "Expand button"
                 )
             }
@@ -163,13 +169,15 @@ fun TaskItem(
 @Preview
 @Composable
 fun PreviewTaskItem() {
-    TaskItem(
-        task = Task(
-            Id = 1,
-            title = "Eating",
-            description = "Description 1\n 2 \n 3\n"
-        ),
-        onTaskDeleteClick = {},
-        onTaskClick = {}
-    )
+    ToDoListTheme(darkTheme = true){
+        TaskItem(
+            task = Task(
+                Id = 1,
+                title = "Eating",
+                description = "Description 1\n 2 \n 3\n"
+            ),
+            onTaskDeleteClick = {},
+            onTaskClick = {}
+        )
+    }
 }
